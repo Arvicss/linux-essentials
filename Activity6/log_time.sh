@@ -1,1 +1,1 @@
-echo "Current Date and Time: $(date)" >> log.txt
+echo "Current Date and Time: $(date)" >> Activity6/log.txt
