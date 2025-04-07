@@ -2,8 +2,11 @@ name: Log Time Job
 
 on:
   schedule:
-    - cron: "* * * * *" # Runs every 5 minutes
+    - cron: "*/5 * * * *"  # Runs every 5 minutes
   workflow_dispatch:
+
+permissions:
+  contents: write  # Grants write permissions to the repository contents
 
 jobs:
   log_time:
@@ -16,12 +19,12 @@ jobs:
       - name: Run logging script
         run: |
           chmod +x Activity6/log_time.sh
-          ./log_time.sh
+          ./Activity6/log_time.sh
 
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add log.txt
+          git add Activity6/log.txt
           git commit -m "Update log file with new timestamp" || echo "No changes to commit"
-          git push
+          git push https://github-token:${{ secrets.GH_TOKEN }}@github.com/Arvicss/linux-essentials.git
