@@ -3,7 +3,7 @@ name: Log Time Job
 on:
   schedule:
     - cron: "* * * * *" # Runs every 5 minutes
-  workflow_dispatch 
+  workflow_dispatch:
 
 jobs:
   log_time:
