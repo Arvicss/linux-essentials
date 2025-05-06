@@ -15,6 +15,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git and pull latest changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git remote set-url origin https://github-token:${{ secrets.GH_TOKEN }}@github.com/Arvicss/linux-essentials.git
+          git checkout main
+          git pull --rebase origin main
 
       - name: Run logging script
         run: |
@@ -23,13 +34,6 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-          git stash || echo "Nothing to stash"
-          git pull --rebase https://github-token:${{ secrets.GH_TOKEN }}@github.com/Arvicss/linux-essentials.git main
-          git stash pop || echo "Nothing to pop"
-
           git add Activity6/log.txt
           git commit -m "Update log file with new timestamp" || echo "No changes to commit"
-          git push https://github-token:${{ secrets.GH_TOKEN }}@github.com/Arvicss/linux-essentials.git main
+          git push origin main
